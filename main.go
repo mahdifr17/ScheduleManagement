@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/mahdifr17/ScheduleManagement/controller"
+	"github.com/mahdifr17/ScheduleManagement/repository"
 )
 
 func main() {
@@ -17,6 +18,10 @@ func setupRouter() *gin.Engine {
 	r := gin.Default()
 	r.SetTrustedProxies([]string{"127.0.0.1"})
 
+	// load repository
+	shiftRP := repository.NewShiftRepositoryMemory()
+	shiftRequestRP := repository.NewShiftRequestRepositoryMemory()
+
 	// healthcheck
 	r.GET("/healthcheck", func(c *gin.Context) {
 		c.String(http.StatusOK, http.StatusText(http.StatusOK))
@@ -28,10 +33,10 @@ func setupRouter() *gin.Engine {
 	})
 
 	// route admin access
-	controller.SetupAdminController(r)
+	controller.SetupAdminController(r, shiftRP, shiftRequestRP)
 
 	// route employee access
-	controller.SetupEmployeeController(r)
+	controller.SetupEmployeeController(r, shiftRP, shiftRequestRP)
 
 	return r
 }

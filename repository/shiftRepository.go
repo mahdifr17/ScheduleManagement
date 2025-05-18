@@ -10,10 +10,6 @@ type (
 		InsertShiftSchedule(request entity.ShiftSchedule) (entity.ShiftSchedule, error)
 		UpdateShiftSchedule(id string, request entity.ShiftSchedule) (entity.ShiftSchedule, error)
 		GetShiftSchedule(filter model.Filter) ([]entity.ShiftSchedule, error)
-
-		// GetAllFinalizedShift() []entity.ShiftSchedule
-		// GetAssignedShift() []entity.ShiftSchedule
-		// GetAvailableShift() []entity.ShiftSchedule
 	}
 
 	ShiftRequestRepository interface {
@@ -21,8 +17,5 @@ type (
 		ApproveShiftRequest(id string) (entity.ShiftRequest, error)
 		RejectShiftRequest(id string) (entity.ShiftRequest, error)
 		GetShiftRequest(filter model.Filter) ([]entity.ShiftRequest, error)
-
-		// GetAllShiftRequest() ([]entity.ShiftRequest, error)
-		// GetEmployeeShiftRequest() ([]entity.ShiftRequest, error)
 	}
 )
