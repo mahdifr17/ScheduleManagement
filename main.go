@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mahdifr17/ScheduleManagement/config"
 	"github.com/mahdifr17/ScheduleManagement/controller"
 	"github.com/mahdifr17/ScheduleManagement/repository"
 )
@@ -15,12 +16,14 @@ func main() {
 }
 
 func setupRouter() *gin.Engine {
+	// setup repository
+	db := config.SetupDb()
+	shiftRP := repository.NewShiftRepositorySqlite(db)
+	shiftRequestRP := repository.NewShiftRequestRepositorySqlite(db)
+	defer db.Close()
+
 	r := gin.Default()
 	r.SetTrustedProxies([]string{"127.0.0.1"})
-
-	// load repository
-	shiftRP := repository.NewShiftRepositoryMemory()
-	shiftRequestRP := repository.NewShiftRequestRepositoryMemory()
 
 	// healthcheck
 	r.GET("/healthcheck", func(c *gin.Context) {
